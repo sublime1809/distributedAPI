@@ -2,28 +2,17 @@
 require_once 'objects/RestObject.php';
 
 class signin extends RestObject { 
-    private $classid;
-    private $studentid;
-    private $timestamp;
+    public $classid;
+    public $studentid;
+    public $timestamp;
     
-    function __construct($classid, $studentid, $timestamp) {
-        $this->classid = $classid;
-        $this->studentid = $studentid;
-        $this->timestamp = $timestamp;
+    function __construct() {
+        parent::__construct('signins');
     }
     
-    function getClass() {
-        return $this->classid;
-    }
-    function getStudent() {
-        return $this->studentid;
-    }
-    function getTimestamp() {
-        return $this->timestamp;
-    }
-    
-    function toString() {
-        return $this->classid . ' - ' . $this->studentid . ' - ' . $this->timestamp;
+    static function create($arrayOfValues) {
+        parent::create($arrayOfValues);
+        // TODO generate text via Twillio
     }
 }
 

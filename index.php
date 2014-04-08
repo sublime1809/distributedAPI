@@ -27,7 +27,13 @@ switch($method) {
         echo 'posting... ';
         $values = json_decode(stream_get_contents(STDIN));
         print_r($values);
-        echo $objName::create($values);
+        if(is_array($values)) {
+            foreach($values as $value) {
+                echo $objName::create($values);
+            }
+        } else {
+            echo json_encode($objName::create($values));
+        }
         break;
     case 'PUT' :
         $id = $values[0];
