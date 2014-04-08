@@ -22,7 +22,8 @@ switch($method) {
     case 'GET' : 
         $id = $values[0];
         echo 'getting... ';
-        echo $objName::find($id);
+        $obj = new $objName();
+        echo $obj->find($id);
         break;
     case 'POST' :
         echo 'posting... ';
@@ -30,22 +31,27 @@ switch($method) {
         print_r($values);
         if(is_array($values)) {
             foreach($values as $value) {
-                echo $objName::create($values);
+                $obj = new $objName();
+                echo $obj->create($value);
             }
         } else {
             echo $objName::getConnection();
-            echo json_encode($objName::create($values));
+            $obj = new $objName();
+            echo $obj->create($values);
         }
         break;
     case 'PUT' :
         $id = $values[0];
         $values = json_decode(stream_get_contents(STDIN));
         echo 'putting... ';
+        $obj = new $objName();
+        echo $obj->update($id, $values);
         break;
     case 'DELETE':
         $id = $values[0];
         echo 'deleting ... ';
-        echo $objName::delete($id);
+        $obj = new $objName();
+        echo $obj->delete($id);
         break;
     default:
         echo 'nothing... ';

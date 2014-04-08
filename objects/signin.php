@@ -10,7 +10,7 @@ class signin extends RestObject {
         parent::__construct('signins');
     }
     
-    static function create($arrayOfValues) {
+    function create($arrayOfValues) {
         parent::create($arrayOfValues);
         // TODO generate text via Twillio
     }

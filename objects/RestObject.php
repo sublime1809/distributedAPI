@@ -10,30 +10,40 @@ class RestObject {
     }
     
     // GET
-    static function find($id) {
-        
+    function find($id) {
+        $conn = $this->getConnection();
+        mysqli_query($conn, "SELECT * FROM ");
         return get_called_class() . ' : ' . $id;
     }
     // PUT
-    function update($arrayOfValues) {
-        
-    }
-    // POST
-    static function create($arrayOfValues) {
+    function update($id, $arrayOfValues) {
+        $this->find($id);
         $className = get_called_class();
-        $obj = new $className();
         $newVars = get_object_vars($arrayOfValues);
         $vars = get_class_vars($className);
         foreach(array_keys($newVars) as $var) {
             if(in_array($var, array_keys($vars))) {
-                $obj->$var = $arrayOfValues->$var;
+                $this->$var = $arrayOfValues->$var;
             }
         }
         // TODO save to DB
-        return $obj;
+        return $this;
+    }
+    // POST
+    function create($arrayOfValues) {
+        $className = get_called_class();
+        $newVars = get_object_vars($arrayOfValues);
+        $vars = get_class_vars($className);
+        foreach(array_keys($newVars) as $var) {
+            if(in_array($var, array_keys($vars))) {
+                $this->$var = $arrayOfValues->$var;
+            }
+        }
+        // TODO save to DB
+        return $this;
     }
     // DELETE
-    static function delete($id) {
+    function delete($id) {
         
     }
     
@@ -44,7 +54,6 @@ class RestObject {
     static function getConnection() {
         $config = json_decode(file_get_contents('config.json'));
         
-        print_r($config);
         $host = $config->database->host;
         $user = $config->database->user;
         $password = $config->database->password;
