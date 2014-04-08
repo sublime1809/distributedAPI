@@ -7,26 +7,30 @@ $url = $_GET['_url'];
 $method = $_SERVER['REQUEST_METHOD'];
 
 $params = explode('/', substr($url, 1));
-var_dump($params);
 $values = array_slice($params, 1);
 $objName = strtolower($params[0]);
 
-echo '<br />' . $method . ' -> ' . $objName . ' : ';
-print_r($values);
-
 require_once('objects/'.$objName.'.php');
 
-
-echo '<br />';
 switch($method) {
     case 'GET' : 
-        $id = $values[0];
-        echo 'getting... ';
-        $obj = new $objName();
-        echo $obj->find($id);
+        if(count($values)%2 == 0) {
+            $params = array();
+            for($i = 0; $i < count($values); $i=$i+2) {
+                $params[$values[$i]] = $values[$i+1];
+            }
+            echo "Finding By: ";
+            print_r($params);
+            $obj = new $objName();
+            echo $obj->findBy($params);
+        } else {
+            $id = $values[0];
+            echo "Finding: " . $id;
+            $obj = new $objName();
+            echo $obj->find($id);
+        }
         break;
     case 'POST' :
-        echo 'posting... ';
         $values = json_decode(stream_get_contents(STDIN));
         print_r($values);
         if(is_array($values)) {
@@ -43,13 +47,14 @@ switch($method) {
     case 'PUT' :
         $id = $values[0];
         $values = json_decode(stream_get_contents(STDIN));
-        echo 'putting... ';
+        echo 'updating... ' . $id;
+        print_r($values);
         $obj = new $objName();
-        echo $obj->update($id, $values);
+        echo json_encode($obj->update($id, $values));
         break;
     case 'DELETE':
         $id = $values[0];
-        echo 'deleting ... ';
+        echo 'deleting ... ' . $id;
         $obj = new $objName();
         echo $obj->delete($id);
         break;

@@ -12,8 +12,42 @@ class RestObject {
     // GET
     function find($id) {
         $conn = $this->getConnection();
-        mysqli_query($conn, "SELECT * FROM ");
-        return get_called_class() . ' : ' . $id;
+
+        $result = mysqli_query($conn, "SELECT * FROM $this->tablename WHERE id=$this->id LIMIT 1");
+        if($result) {
+            $values = mysqli_fetch_assoc($result);
+            $vars = get_class_vars(get_called_class());
+            foreach(array_keys($values) as $var) {
+                if(in_array($var, array_keys($vars))) {
+                    $this->$var = $values->$var;
+                }
+            }
+        }
+        return $this;
+    }
+    function findBy($values) {
+        $conn = $this->getConnection();
+
+        $vars = get_class_vars(get_called_class());
+        $columns = array();
+        foreach(array_keys($values) as $var) {
+            if(in_array($var, array_keys($vars))) {
+                $value = mysql_real_escape_string($values[$var]);
+                $columns[] = "$var=$value";
+            }
+        }
+        
+        $result = mysqli_query($conn, "SELECT * FROM $this->tablename WHERE " . implode(',', $columns));
+        if($result) {
+            $values = mysqli_fetch_assoc($result);
+            $vars = get_class_vars(get_called_class());
+            foreach(array_keys($values) as $var) {
+                if(in_array($var, array_keys($vars))) {
+                    $this->$var = $values->$var;
+                }
+            }
+        }
+        return $this;
     }
     // PUT
     function update($id, $arrayOfValues) {
@@ -21,12 +55,17 @@ class RestObject {
         $className = get_called_class();
         $newVars = get_object_vars($arrayOfValues);
         $vars = get_class_vars($className);
+        $columns = array();
+        
         foreach(array_keys($newVars) as $var) {
             if(in_array($var, array_keys($vars))) {
-                $this->$var = $arrayOfValues->$var;
+                $this->$var = mysql_real_escape_string($arrayOfValues->$var);
+                $columns[] = "$var=$this->$var";
             }
         }
-        // TODO save to DB
+        $conn = getConnection();
+        
+        mysqli_query($conn, "UPDATE $this->tablename SET " . implode(',', $columns) . " WHERE id=$this->id LIMIT 1");
         return $this;
     }
     // POST
@@ -34,12 +73,18 @@ class RestObject {
         $className = get_called_class();
         $newVars = get_object_vars($arrayOfValues);
         $vars = get_class_vars($className);
+        $columns = array();
+        $columnValues = array();
         foreach(array_keys($newVars) as $var) {
             if(in_array($var, array_keys($vars))) {
                 $this->$var = $arrayOfValues->$var;
+                $columns[] = $var;
+                $columnValues[] = $this->$var;
             }
         }
-        // TODO save to DB
+        
+        $conn = getConnection();
+        mysqli_query($conn, "INSERT INTO $this->tablename (" . implode(',', $columns) . ") VALUES ("  . implode(',', $columnValues) . ")");
         return $this;
     }
     // DELETE
@@ -47,6 +92,7 @@ class RestObject {
         
     }
     
+    // Saves to DB
     private function save() {
         
     }

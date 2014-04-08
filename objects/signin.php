@@ -2,9 +2,11 @@
 require_once 'objects/RestObject.php';
 
 class signin extends RestObject { 
-    public $classid;
-    public $studentid;
-    public $timestamp;
+    public $class_id;
+    public $student_id;
+    public $name;
+    public $phone;
+    public $sign_time;
     
     function __construct() {
         parent::__construct('signins');
