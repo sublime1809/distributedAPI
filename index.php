@@ -16,6 +16,7 @@ print_r($values);
 
 require_once('objects/'.$objName.'.php');
 
+
 echo '<br />';
 switch($method) {
     case 'GET' : 
@@ -32,6 +33,7 @@ switch($method) {
                 echo $objName::create($values);
             }
         } else {
+            echo $objName::getConnection();
             echo json_encode($objName::create($values));
         }
         break;

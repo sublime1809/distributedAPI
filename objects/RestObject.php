@@ -11,6 +11,7 @@ class RestObject {
     
     // GET
     static function find($id) {
+        
         return get_called_class() . ' : ' . $id;
     }
     // PUT
@@ -23,11 +24,8 @@ class RestObject {
         $obj = new $className();
         $newVars = get_object_vars($arrayOfValues);
         $vars = get_class_vars($className);
-        print_r($newVars);
-        print_r($vars);
         foreach(array_keys($newVars) as $var) {
             if(in_array($var, array_keys($vars))) {
-                echo "setting: " . $var . ' to ' . $arrayOfValues->$var;
                 $obj->$var = $arrayOfValues->$var;
             }
         }
@@ -41,5 +39,17 @@ class RestObject {
     
     private function save() {
         
+    }
+    
+    static function getConnection() {
+        $config = json_decode(file_get_contents('config.json'));
+        
+        print_r($config);
+        $host = $config->database->host;
+        $user = $config->database->user;
+        $password = $config->database->password;
+        $database = $config->database->database;
+
+        return mysqli_connect($host, $user, $password, $database);
     }
 }
