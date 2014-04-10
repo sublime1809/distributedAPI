@@ -51,7 +51,7 @@
 				return;
 			}
 
-			$.post("index.php/class", 
+			$.post("index.php/classPeriod", 
 			{
 				"name": name,
 				"date": date

@@ -31,8 +31,11 @@ switch($method) {
         }
         break;
     case 'POST' :
-        $values = json_decode(stream_get_contents(STDIN));
-        print_r($values);
+        if(count($_POST) > 0) {
+            $values = $_POST;
+        } else {
+            $values = json_decode(stream_get_contents(STDIN));
+        }
         if(is_array($values)) {
             foreach($values as $value) {
                 $obj = new $objName();
