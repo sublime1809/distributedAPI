@@ -38,7 +38,13 @@
 			</div>
 			<div class="col-sm-5">
 				<h2>Email Roll</h2>
-				<button id="email_roll" class="btn btn-primary">Email Me the Roll</button>
+				<div class="form-group">
+					<label for="email" class="col-sm-4 control-label">Email</label>
+					<div class="col-sm-8">
+						<input id="email" name="email" type="text" placeholder="windley@cs.byu.edu" class="form-control">
+					</div>
+				</div>
+				<button id="email_roll" class="btn btn-primary disabled">Email Me the Roll</button>
 			</div>
 		</div>
 	</body>
@@ -66,7 +72,10 @@
 			function(data) {
 				data = JSON.parse(data);
 				$("#class_id").html(data.id);
+
 				$("#update_roll").removeClass("disabled");
+				$("#email_roll").removeClass("disabled");
+
 				$("#start_class").addClass("disabled");
 			});
 		});
@@ -94,14 +103,20 @@
 		$("#email_roll").click(function() {
 			//AJAX GET to download all students and display them. 
 			var class_id = $("#class_id").html();
-			console.log("update Roll");
+			var email = $("#email").val();
+
+			if(email == '') {
+				alert("Please input your email.");
+				return;
+			}
+
 			$.post("email.php",
 			{
-				"class_id":class_id
+				"class_id":class_id,
+				"email": email
 			},
 			function(data) {
 				console.log(data);
-				$("#update_roll").removeClass("disabled");
 			});
 		});
 	</script>

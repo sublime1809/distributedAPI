@@ -3,6 +3,7 @@ require 'lib/mailgun-php-1.7/vendor/autoload.php';
 use Mailgun\Mailgun;
 
 $class_id = $_POST['class_id'];
+$email = $_POST['email'];
 
 $roll = json_decode(file_get_contents("http://cs462.local/signin/class_id/".$class_id));
 
@@ -27,7 +28,7 @@ $domain = "sandbox03919bfa91e54f2f964446440ef8b3e9.mailgun.org";
 
 // Now, compose and send your message.
 $mg->sendMessage($domain, array('from'    => 'Mailgun Sandbox <postmaster@sandbox03919bfa91e54f2f964446440ef8b3e9.mailgun.org>',
-                                'to'      => 'Leckie <leckster@gmail.com>', 
+                                'to'      => $email, 
                                 'subject' => 'Class Roll', 
                                 'html'    => $message));
 
