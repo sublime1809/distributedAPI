@@ -5,7 +5,7 @@ use Mailgun\Mailgun;
 $class_id = $_POST['class_id'];
 $email = $_POST['email'];
 
-$roll = json_decode(file_get_contents("http://cs462.local/signin/class_id/".$class_id));
+$roll = json_decode(file_get_contents("http://23.23.190.238/distributedAPI/signin/class_id/".$class_id));
 
 //var_dump($roll);
 
