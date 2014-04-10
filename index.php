@@ -22,12 +22,12 @@ switch($method) {
             echo "Finding By: ";
             print_r($params);
             $obj = new $objName();
-            echo $obj->findBy($params);
+            returnSuccess($objName::findBy($params));
         } else {
             $id = $values[0];
             echo "Finding: " . $id;
             $obj = new $objName();
-            echo $obj->find($id);
+            returnSuccess($obj->find($id));
         }
         break;
     case 'POST' :
@@ -36,12 +36,12 @@ switch($method) {
         if(is_array($values)) {
             foreach($values as $value) {
                 $obj = new $objName();
-                echo $obj->create($value);
+                returnSuccess($obj->create($value));
             }
         } else {
             echo $objName::getConnection();
             $obj = new $objName();
-            echo $obj->create($values);
+            returnSuccess($obj->create($values));
         }
         break;
     case 'PUT' :
@@ -50,15 +50,19 @@ switch($method) {
         echo 'updating... ' . $id;
         print_r($values);
         $obj = new $objName();
-        echo json_encode($obj->update($id, $values));
+        returnSuccess($obj->update($id, $values));
         break;
     case 'DELETE':
         $id = $values[0];
         echo 'deleting ... ' . $id;
         $obj = new $objName();
-        echo $obj->delete($id);
+        returnSuccess($obj->delete($id));
         break;
     default:
         echo 'nothing... ';
         break;
+}
+
+function returnSuccess($object) {
+    echo json_encode($object);
 }
