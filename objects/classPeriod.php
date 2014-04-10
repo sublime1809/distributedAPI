@@ -1,6 +1,6 @@
 <?php
 
-class classPeriod {
+class classPeriod extends RestObject {
     public $date;
     public $name;
     
