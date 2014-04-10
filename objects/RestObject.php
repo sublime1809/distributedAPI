@@ -80,10 +80,13 @@ class RestObject {
     // POST
     function create($arrayOfValues) {
         $className = get_called_class();
+        echo "Values: ";
+        print_r($arrayOfValues);
         $newVars = get_object_vars($arrayOfValues);
         $vars = get_class_vars($className);
         $columns = array();
         $columnValues = array();
+        
         foreach(array_keys($newVars) as $var) {
             if(in_array($var, array_keys($vars))) {
                 $this->$var = $arrayOfValues->$var;
@@ -92,13 +95,21 @@ class RestObject {
             }
         }
         
+        $query = "INSERT INTO $this->tablename (" . implode(',', $columns) . ") VALUES (\""  . implode('","', $columnValues) . "\")";
         $conn = $this->getConnection();
-        mysqli_query($conn, "INSERT INTO $this->tablename (" . implode(',', $columns) . ") VALUES ("  . implode(',', $columnValues) . ")");
+        mysqli_query($conn, $query);
+        
+        $id = mysqli_insert_id($conn);
+        $this->id = $id;
         return $this;
     }
     // DELETE
     function delete($id) {
-        
+        $conn = $this->getConnection();
+
+        $query = "DELETE FROM $this->tablename WHERE id=$id LIMIT 1";
+        echo $query;
+        mysqli_query($conn, $query);
     }
     
     // Saves to DB

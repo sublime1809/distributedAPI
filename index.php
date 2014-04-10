@@ -34,6 +34,7 @@ switch($method) {
         } else {
             $values = json_decode(stream_get_contents(STDIN));
         }
+        print_r($values);
         if(is_array($values)) {
             foreach($values as $value) {
                 $obj = new $objName();
