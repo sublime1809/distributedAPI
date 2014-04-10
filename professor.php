@@ -29,7 +29,7 @@
 			</div>
 			<div class="col-sm-7">
 				<h2>Student Roll</h2>
-				<button id="update_roll" class="btn btn-primary disabled">Check For Students</button>
+				<button id="update_roll" class="btn btn-primary">Check For Students</button>
 				<div class="student_roll_container"></div>
 			</div>
 		</div>
@@ -65,9 +65,10 @@
 		$("#update_roll").click(function() {
 			//AJAX GET to download all students and display them. 
 			var class_id = $("#class_id").html();
+			console.log("update Roll");
 			$.ajax({
 			  type: "GET",
-			  url: "index.php/signins/class_id/" + class_id;
+			  url: "index.php/signin/class_id/1"// + class_id
 			});
 		});
 	</script>
