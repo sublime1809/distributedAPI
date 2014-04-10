@@ -20,8 +20,8 @@ switch($method) {
             for($i = 0; $i < count($values); $i=$i+2) {
                 $params[$values[$i]] = $values[$i+1];
             }
-            echo "Finding By: ";
-            print_r($params);
+            //echo "Finding By: ";
+            //print_r($params);
             $obj = new $objName();
             returnSuccess($objName::findBy($params));
         } else {
