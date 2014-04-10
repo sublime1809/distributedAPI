@@ -32,6 +32,10 @@
 				<button id="update_roll" class="btn btn-primary">Check For Students</button>
 				<div class="student_roll_container"></div>
 			</div>
+			<div class="col-sm-5">
+				<h2>Email Roll</h2>
+				<button id="email_roll" class="btn btn-primary">Email Me the Roll</button>
+			</div>
 		</div>
 	</body>
 	<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
@@ -51,15 +55,14 @@
 				return;
 			}
 
-			$.post("index.php/classPeriod",
+			$.post("classPeriod",
 			{
 				"data":'{"name": "' + name + '","date": "' + date + '"}'
 			},
 			function(data) {
 				console.log(data);
 				$("#update_roll").removeClass("disabled");
-			}
-			);
+			});
 		});
 
 		$("#update_roll").click(function() {
@@ -68,7 +71,21 @@
 			console.log("update Roll");
 			$.ajax({
 			  type: "GET",
-			  url: "index.php/signin/class_id/1"// + class_id
+			  url: "signin/class_id/1"// + class_id
+			});
+		});
+
+		$("#email_roll").click(function() {
+			//AJAX GET to download all students and display them. 
+			var class_id = $("#class_id").html();
+			console.log("update Roll");
+			$.post("email.php",
+			{
+				"class_id":"1"
+			},
+			function(data) {
+				console.log(data);
+				$("#update_roll").removeClass("disabled");
 			});
 		});
 	</script>

@@ -3,7 +3,6 @@
 ini_set('display_errors', true);
 define('STDIN',fopen("php://input","r"));
 
-
 //$url = $_SERVER['REQUEST_URI'];
 $url = $_GET['_url'];
 $method = $_SERVER['REQUEST_METHOD'];
@@ -33,7 +32,7 @@ switch($method) {
         break;
     case 'POST' :
         if(count($_POST) > 0) {
-            $values = $_POST;
+            $values = json_decode($_POST['data']);
         } else {
             $values = json_decode(stream_get_contents(STDIN));
         }
@@ -43,6 +42,10 @@ switch($method) {
                 returnSuccess($obj->create($value));
             }
         } else {
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 9998ca002824fbbcb8e3668b1d8f1221db2f9631
             $obj = new $objName();
             returnSuccess($obj->create($values));
         }
