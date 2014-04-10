@@ -42,10 +42,6 @@ switch($method) {
                 returnSuccess($obj->create($value));
             }
         } else {
-<<<<<<< HEAD
-=======
-            
->>>>>>> 9998ca002824fbbcb8e3668b1d8f1221db2f9631
             $obj = new $objName();
             returnSuccess($obj->create($values));
         }
