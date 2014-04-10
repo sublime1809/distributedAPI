@@ -1,6 +1,7 @@
 <?php
+require_once 'objects/RestObject.php';
 
-class classPeriod {
+class classPeriod extends RestObject {
     public $date;
     public $name;
     
