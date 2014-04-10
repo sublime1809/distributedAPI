@@ -26,7 +26,7 @@ class RestObject {
         return $this;
     }
     static function findBy($values) {
-        $conn = $this->getConnection();
+        $conn = RestObject::getConnection();
 
         $className = get_called_class();
         $vars = get_class_vars($className);
