@@ -24,12 +24,12 @@
 				<div class="col-sm-8 col-sm-offset-4">
 					<a href="javascript:void(0)" id="start_class" class="btn btn-primary">Start Class</a>
 				</div>
-				<div id="class_id"></div>
+				<h3>Class ID: <span id="class_id">not setup</span></h3>
 				</form>
 			</div>
 			<div class="col-sm-7">
 				<h2>Student Roll</h2>
-				<button id="update_roll" class="btn btn-primary">Check For Students</button>
+				<button id="update_roll" class="btn btn-primary disabled">Check For Students</button>
 				<div class="student_roll_container"></div>
 			</div>
 		</div>
@@ -51,19 +51,24 @@
 				return;
 			}
 
-			$.post("index.php/class", 
+			$.post("index.php/classPeriod",
 			{
-				"name": name,
-				"date": date
+				"data":'{"name": "' + name + '","date": "' + date + '"}'
 			},
 			function(data) {
 				console.log(data);
+				$("#update_roll").removeClass("disabled");
 			}
 			);
 		});
 
 		$("#update_roll").click(function() {
 			//AJAX GET to download all students and display them. 
+			var class_id = $("#class_id").html();
+			$.ajax({
+			  type: "GET",
+			  url: "index.php/signins/class_id/" + class_id;
+			});
 		});
 	</script>
 </html>
