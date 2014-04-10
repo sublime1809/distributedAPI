@@ -3,7 +3,7 @@
 ini_set('display_errors', true);
 define('STDIN',fopen("php://input","r"));
 
-$url = $_GET['_url'];
+$url = $_SERVER['PATH_INFO'];
 $method = $_SERVER['REQUEST_METHOD'];
 
 $params = explode('/', substr($url, 1));
