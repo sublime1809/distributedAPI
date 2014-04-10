@@ -2,9 +2,8 @@
 require_once 'objects/RestObject.php';
 require('lib/twilio-php/Services/Twilio.php'); 
 
-$account_sid = 'ACebfdd735cd36788c41c9a0e1e0a94d4d'; 
-$auth_token = 'ad8b80003b388cf2d31aa50c3738800f'; 
-$client = new Services_Twilio($account_sid, $auth_token); 
+static $account_sid = 'ACebfdd735cd36788c41c9a0e1e0a94d4d'; 
+static $auth_token = 'ad8b80003b388cf2d31aa50c3738800f'; 
 
 class signin extends RestObject { 
 	public $class_id;
@@ -22,6 +21,7 @@ class signin extends RestObject {
 	function create($arrayOfValues) {
 		parent::create($arrayOfValues);
 		
+		$client = new Services_Twilio($account_sid, $auth_token); 
 		$client->account->messages->create(array(
 			'To' => $this->phone,
 			'From' => "+13852357234",
