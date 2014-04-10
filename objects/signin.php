@@ -12,6 +12,8 @@ class signin extends RestObject {
 	public $name;
 	public $phone;
 	public $sign_time;
+        
+        protected static $tablename = 'signins';
 	
 	function __construct() {
 		parent::__construct('signins');

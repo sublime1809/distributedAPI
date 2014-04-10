@@ -3,7 +3,9 @@
 ini_set('display_errors', true);
 define('STDIN',fopen("php://input","r"));
 
-$url = $_SERVER['PATH_INFO'];
+
+//$url = $_SERVER['REQUEST_URI'];
+$url = $_GET['_url'];
 $method = $_SERVER['REQUEST_METHOD'];
 
 $params = explode('/', substr($url, 1));
@@ -25,7 +27,6 @@ switch($method) {
             returnSuccess($objName::findBy($params));
         } else {
             $id = $values[0];
-            echo "Finding: " . $id;
             $obj = new $objName();
             returnSuccess($obj->find($id));
         }
@@ -42,7 +43,6 @@ switch($method) {
                 returnSuccess($obj->create($value));
             }
         } else {
-            echo $objName::getConnection();
             $obj = new $objName();
             returnSuccess($obj->create($values));
         }
