@@ -80,8 +80,8 @@ class RestObject {
     // POST
     function create($arrayOfValues) {
         $className = get_called_class();
-        echo "Values: ";
-        print_r($arrayOfValues);
+        //echo "Values: ";
+        //print_r($arrayOfValues);
         $newVars = get_object_vars($arrayOfValues);
         $vars = get_class_vars($className);
         $columns = array();

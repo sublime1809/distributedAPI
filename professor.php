@@ -29,7 +29,7 @@
 			</div>
 			<div class="col-sm-7">
 				<h2>Student Roll</h2>
-				<button id="update_roll" class="btn btn-primary">Check For Students</button>
+				<button id="update_roll" class="btn btn-primary disabled">Check For Students</button>
 				<div>
 					<table id="students" class="table table-striped">
 						
@@ -64,8 +64,10 @@
 				"data":'{"name": "' + name + '","date": "' + date + '"}'
 			},
 			function(data) {
-				console.log(data);
+				data = JSON.parse(data);
+				$("#class_id").html(data.id);
 				$("#update_roll").removeClass("disabled");
+				$("#start_class").addClass("disabled");
 			});
 		});
 
@@ -75,7 +77,7 @@
 			console.log("update Roll");
 			$.ajax({
 			  type: "GET",
-			  url: "signin/class_id/1",// + class_id
+			  url: "signin/class_id/" + class_id,
 			  success: function(data, status) {
 			  	data = JSON.parse(data);
 
@@ -95,7 +97,7 @@
 			console.log("update Roll");
 			$.post("email.php",
 			{
-				"class_id":"1"
+				"class_id":class_id
 			},
 			function(data) {
 				console.log(data);
