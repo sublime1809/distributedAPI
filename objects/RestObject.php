@@ -41,7 +41,7 @@ class RestObject {
         $tablename = $className::$tablename;
         
         $query = "SELECT * FROM $tablename WHERE " . implode(',', $columns);
-        echo $query;
+        //echo $query;
         
         $result = mysqli_query($conn, $query);
         $objects = array();

@@ -30,7 +30,11 @@
 			<div class="col-sm-7">
 				<h2>Student Roll</h2>
 				<button id="update_roll" class="btn btn-primary">Check For Students</button>
-				<div class="student_roll_container"></div>
+				<div>
+					<table id="students" class="table table-striped">
+						
+					</table>
+				</div>
 			</div>
 			<div class="col-sm-5">
 				<h2>Email Roll</h2>
@@ -71,7 +75,17 @@
 			console.log("update Roll");
 			$.ajax({
 			  type: "GET",
-			  url: "signin/class_id/1"// + class_id
+			  url: "signin/class_id/1",// + class_id
+			  success: function(data, status) {
+			  	data = JSON.parse(data);
+
+			  	var html = "";
+			  	for (var i = 0; i < data.length; i++) {
+			  		var student = data[i];
+			  		html += '<tr><td>' + student.name + '</td><td>' + student.student_id + '</td></tr>';
+			  	};
+			  	$("#students").html(html);
+			  }
 			});
 		});
 
