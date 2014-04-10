@@ -2,7 +2,7 @@
     "database" : {
         "host" : "localhost",
         "user" : "root",
-        "password" : "***",
+        "password" : "qtMYsql16",
         "database" : "cs462"
     }
 }

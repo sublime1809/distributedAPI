@@ -25,10 +25,11 @@ class RestObject {
         }
         return $this;
     }
-    function findBy($values) {
+    static function findBy($values) {
         $conn = $this->getConnection();
 
-        $vars = get_class_vars(get_called_class());
+        $className = get_called_class();
+        $vars = get_class_vars($className);
         $columns = array();
         foreach(array_keys($values) as $var) {
             if(in_array($var, array_keys($vars))) {
@@ -39,15 +40,18 @@ class RestObject {
         
         $result = mysqli_query($conn, "SELECT * FROM $this->tablename WHERE " . implode(',', $columns));
         if($result) {
-            $values = mysqli_fetch_assoc($result);
-            $vars = get_class_vars(get_called_class());
-            foreach(array_keys($values) as $var) {
-                if(in_array($var, array_keys($vars))) {
-                    $this->$var = $values->$var;
+            $objects = array();
+            while($values = mysqli_fetch_assoc($result)) {
+                $object = new $className;
+                foreach(array_keys($values) as $var) {
+                    if(in_array($var, array_keys($vars))) {
+                        $object->$var = $values->$var;
+                    }
                 }
+                $objects[] = $object;
             }
         }
-        return $this;
+        return $objects;
     }
     // PUT
     function update($id, $arrayOfValues) {
