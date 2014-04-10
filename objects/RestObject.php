@@ -87,7 +87,7 @@ class RestObject {
             }
         }
         
-        $conn = getConnection();
+        $conn = $this->getConnection();
         mysqli_query($conn, "INSERT INTO $this->tablename (" . implode(',', $columns) . ") VALUES ("  . implode(',', $columnValues) . ")");
         return $this;
     }
